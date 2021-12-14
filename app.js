@@ -28,9 +28,19 @@ app.use(
 );
 
 // connect DB
-mongoose.connect('mongodb://localhost/cleanblog-test-db', {
-  useNewUrlParser: true,
-});
+mongoose
+  .connect(
+    'mongodb+srv://hilmi:123456hcy.@cluster0.3ww0g.mongodb.net/pcat-app?retryWrites=true&w=majority',
+    {
+      useNewUrlParser: true,
+    }
+  )
+  .then(() => {
+    console.log('DB CONNECTED!');
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // Routes
 app.get('/', photoController.getAllPhotos);
@@ -43,7 +53,7 @@ app.get('/about', pageController.getAboutPage);
 app.get('/add', pageController.getPhotoAddPage);
 app.get('/photos/edit/:id', pageController.getPhotoEditPage);
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port} `);
 });
